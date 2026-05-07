@@ -1,0 +1,83 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-50: #f0f4ff;
+  --color-brand-100: #e0eaff;
+  --color-brand-200: #c7d7fd;
+  --color-brand-300: #a5bbfb;
+  --color-brand-400: #7c96f8;
+  --color-brand-500: #5b73f5;
+  --color-brand-600: #4254ea;
+  --color-brand-700: #3541d6;
+  --color-brand-800: #2c37ae;
+  --color-brand-900: #293389;
+  --color-brand-950: #1a1f52;
+
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background-color: #e0eaff;
+    color: #1a1f52;
+  }
+
+  :focus-visible {
+    outline: 2px solid #5b73f5;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer utilities {
+  .gradient-brand {
+    background: linear-gradient(135deg, #5b73f5 0%, #3541d6 100%);
+  }
+
+  .gradient-hero {
+    background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(91,115,245,0.12) 0%, transparent 70%);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #4254ea 0%, #7c96f8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glass {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+
+  .dark .glass {
+    background: rgba(17, 24, 39, 0.8);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
+  }
+}
