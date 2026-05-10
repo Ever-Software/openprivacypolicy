@@ -217,7 +217,7 @@ export function FinancialMePolicyPage() {
             Financial ME Privacy Policy
           </h1>
           <p className="text-sm text-gray-400">
-            Last updated: <span className="text-gray-600 dark:text-gray-300">May 2, 2026</span>
+            Last updated: <span className="text-gray-600 dark:text-gray-300">May 10, 2026</span>
           </p>
         </div>
 
