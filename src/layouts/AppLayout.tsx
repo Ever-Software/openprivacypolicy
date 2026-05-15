@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { Logo } from '@/components/ui/Logo'
 import { Button } from '@/components/ui/Button'
 import { useThemeStore } from '@/store/themeStore'
-import { useAuthStore } from '@/store/authStore'
 import { cn } from '@/utils/cn'
 import type { Theme } from '@/types'
 
@@ -47,7 +46,6 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children, transparent }: AppLayoutProps) {
-  const { isAuthenticated } = useAuthStore()
   const [menuOpen, setMenuOpen] = useState(false)
   const location = useLocation()
 
@@ -104,15 +102,13 @@ export function AppLayout({ children, transparent }: AppLayoutProps) {
                 {link.label}
               </a>
             ))}
-            {!isAuthenticated && (
-              <a
-                href="/#contact"
-                className="block py-2.5 text-sm font-medium text-brand-600 dark:text-brand-400"
-                onClick={() => setMenuOpen(false)}
-              >
-                Contact us
-              </a>
-            )}
+            <a
+              href="/#contact"
+              className="block py-2.5 text-sm font-medium text-brand-600 dark:text-brand-400"
+              onClick={() => setMenuOpen(false)}
+            >
+              Contact us
+            </a>
           </div>
         )}
       </header>
