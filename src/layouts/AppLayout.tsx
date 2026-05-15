@@ -11,7 +11,6 @@ import type { Theme } from '@/types'
 const NAV_LINKS = [
   { href: '/#features', label: 'Features' },
   { href: '/#how-it-works', label: 'How it works' },
-  { href: '/#pricing', label: 'Pricing' },
 ]
 
 function ThemeToggle() {
@@ -133,7 +132,7 @@ export function AppLayout({ children, transparent }: AppLayoutProps) {
           <div>
             <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Product</p>
             <div className="flex flex-col gap-2">
-              {['Features', 'Templates', 'Pricing', 'Changelog'].map((l) => (
+              {['Features', 'Templates', 'Changelog'].map((l) => (
                 <a key={l} href="#" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">{l}</a>
               ))}
             </div>

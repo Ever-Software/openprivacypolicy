@@ -150,15 +150,6 @@ export function DashboardOverview() {
               </div>
             </Card>
 
-            <Card className="bg-gradient-to-br from-brand-500 to-brand-700 border-0">
-              <p className="text-sm font-semibold text-white mb-1">Upgrade to Pro</p>
-              <p className="text-xs text-brand-200 mb-3 leading-relaxed">
-                Unlock unlimited policies, custom domains, and priority support.
-              </p>
-              <Button variant="secondary" size="sm" className="bg-white/20 text-white hover:bg-white/30 border-0">
-                Learn more
-              </Button>
-            </Card>
           </div>
         </div>
       </div>

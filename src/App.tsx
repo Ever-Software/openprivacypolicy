@@ -15,7 +15,7 @@ import { PolicyEditorPage } from '@/pages/editor/PolicyEditorPage'
 import { TemplatesPage } from '@/pages/templates/TemplatesPage'
 import { SettingsPage } from '@/pages/settings/SettingsPage'
 import { PublicPolicyPage } from '@/pages/public/PublicPolicyPage'
-import { FinancialMePolicyPage } from '@/pages/public/FinancialMePolicyPage'
+import { StaticPolicyPage } from '@/pages/public/StaticPolicyPage'
 
 export default function App() {
   return (
@@ -25,7 +25,7 @@ export default function App() {
           {/* Public routes */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/p/:slug" element={<PublicPolicyPage />} />
-          <Route path="/privacy-policies/financial-me/policy" element={<FinancialMePolicyPage />} />
+          <Route path="/privacy-policies/:slug" element={<StaticPolicyPage />} />
 
           {/* Auth routes (redirect to dashboard if logged in) */}
           <Route element={<PublicOnlyRoute />}>

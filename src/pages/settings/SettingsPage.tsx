@@ -8,7 +8,6 @@ import { DashboardLayout } from '@/layouts/DashboardLayout'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Card, CardTitle } from '@/components/ui/Card'
-import { Badge } from '@/components/ui/Badge'
 import { useAuthStore } from '@/store/authStore'
 import { useThemeStore } from '@/store/themeStore'
 import type { Theme } from '@/types'
@@ -221,30 +220,8 @@ function AppearanceTab() {
 }
 
 function AccountTab() {
-  const { user } = useAuthStore()
-
   return (
     <div className="space-y-4">
-      <Card>
-        <CardTitle className="mb-4">Plan & billing</CardTitle>
-        <div className="flex items-center justify-between p-4 rounded-xl bg-gray-50 dark:bg-gray-800 mb-4">
-          <div>
-            <p className="text-sm font-semibold text-gray-900 dark:text-white capitalize">
-              {user?.plan} plan
-            </p>
-            <p className="text-xs text-gray-500 mt-0.5">
-              {user?.plan === 'free' ? '1 policy included' : 'Unlimited policies'}
-            </p>
-          </div>
-          <Badge variant={user?.plan === 'free' ? 'gray' : 'brand'} className="capitalize">
-            {user?.plan}
-          </Badge>
-        </div>
-        {user?.plan === 'free' && (
-          <Button variant="secondary">Upgrade to Pro — $9/mo</Button>
-        )}
-      </Card>
-
       <Card className="border-red-100 dark:border-red-900/30">
         <CardTitle className="mb-2 text-red-600">Danger zone</CardTitle>
         <p className="text-sm text-gray-500 mb-4">
