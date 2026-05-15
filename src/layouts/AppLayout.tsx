@@ -16,10 +16,10 @@ const CONTACT_HREF = 'mailto:eversoftwarehouse@gmail.com?subject=Privacy%20polic
 
 function ThemeToggle() {
   const { theme, setTheme } = useThemeStore()
-  const options: { value: Theme; icon: React.ReactNode }[] = [
-    { value: 'light', icon: <Sun className="size-4" /> },
-    { value: 'dark', icon: <Moon className="size-4" /> },
-    { value: 'system', icon: <Monitor className="size-4" /> },
+  const options: { value: Theme; icon: React.ReactNode; label: string }[] = [
+    { value: 'light', icon: <Sun className="size-4" />, label: 'Light' },
+    { value: 'dark', icon: <Moon className="size-4" />, label: 'Dark' },
+    { value: 'system', icon: <Monitor className="size-4" />, label: 'System' },
   ]
   return (
     <div className="flex items-center gap-0.5 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
@@ -79,13 +79,13 @@ export function AppLayout({ children, transparent }: AppLayoutProps) {
           </nav>
 
           <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <a href={CONTACT_HREF}>
+            <a href={CONTACT_HREF} className="hidden md:block">
               <Button size="sm">Contact us</Button>
             </a>
             <button
-              className="md:hidden p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="md:hidden p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               onClick={() => setMenuOpen((v) => !v)}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             >
               {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
             </button>
@@ -93,24 +93,22 @@ export function AppLayout({ children, transparent }: AppLayoutProps) {
         </div>
 
         {menuOpen && (
-          <div className="md:hidden bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-4 pb-4">
+          <div className="md:hidden bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-4 py-3 flex flex-col gap-1">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="block py-2.5 text-sm text-gray-700 dark:text-gray-300"
+                className="block px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                 onClick={() => setMenuOpen(false)}
               >
                 {link.label}
               </a>
             ))}
-            <a
-              href={CONTACT_HREF}
-              className="block py-2.5 text-sm font-medium text-brand-600 dark:text-brand-400"
-              onClick={() => setMenuOpen(false)}
-            >
-              Contact us
-            </a>
+            <div className="mt-2 pt-3 border-t border-gray-100 dark:border-gray-800">
+              <a href={CONTACT_HREF} onClick={() => setMenuOpen(false)}>
+                <Button className="w-full" size="sm">Contact us</Button>
+              </a>
+            </div>
           </div>
         )}
       </header>
@@ -160,6 +158,11 @@ export function AppLayout({ children, transparent }: AppLayoutProps) {
           </div>
         </div>
       </footer>
+
+      {/* Floating theme toggle — fixed bottom-right, visible on all screen sizes */}
+      <div className="fixed bottom-6 right-6 z-50 shadow-lg rounded-xl border border-gray-200 dark:border-gray-700">
+        <ThemeToggle />
+      </div>
     </div>
   )
 }
