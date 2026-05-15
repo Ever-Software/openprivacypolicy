@@ -1,7 +1,7 @@
 import {
   ShieldCheck, Zap, Globe, FileText, BarChart3, Lock,
   ArrowRight, CheckCircle, Star, ChevronDown, ChevronUp,
-  Users, TrendingUp, Award, Mail,
+  Users, TrendingUp, Award, Mail, Sparkles,
 } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@/components/ui/Button'
@@ -70,7 +70,20 @@ const TESTIMONIALS = [
   },
 ]
 
+const PRICING_FEATURES = [
+  'Policy drafted and reviewed by our team',
+  'Permanent public URL, ready to link anywhere',
+  'LGPD, GDPR & CCPA compliance included',
+  'Hosted for 3 full months',
+  'Update requests during the period',
+  '24-hour response time',
+]
+
 const FAQS = [
+  {
+    q: 'How much does it cost?',
+    a: 'We charge $5 for 3 months of hosting — less than $2 per month. That includes policy drafting, review, publishing, and hosting for the full period. Renewal is just as simple: send us a message.',
+  },
   {
     q: 'How does the publishing process work?',
     a: 'Just reach out by email describing your system, app, or platform. Our team drafts, reviews, and publishes a tailored privacy policy with a permanent public URL.',
@@ -333,6 +346,79 @@ export function LandingPage() {
             <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
               A professional privacy policy signals to your users that you take their data seriously — and that you're a business worth trusting.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="pricing" className="py-20 sm:py-28 bg-gray-50 dark:bg-gray-900">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12">
+            <Badge variant="brand" className="mb-4">Pricing</Badge>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white tracking-tight mb-4">
+              Simple pricing. No surprises.
+            </h2>
+            <p className="text-lg text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
+              For less than a cup of coffee a month, your privacy policy is drafted, hosted, and always online.
+            </p>
+          </div>
+
+          <div className="relative bg-white dark:bg-gray-800 rounded-3xl border-2 border-brand-500 shadow-xl overflow-hidden">
+            <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-brand-400 via-brand-500 to-brand-600" />
+
+            <div className="p-8 sm:p-10">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-8">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <Sparkles className="size-4 text-brand-500" />
+                    <span className="text-sm font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-wide">
+                      3-Month Hosting Plan
+                    </span>
+                  </div>
+                  <div className="flex items-end gap-2">
+                    <span className="text-5xl font-black text-gray-900 dark:text-white">$5</span>
+                    <span className="text-gray-400 mb-2">/ 3 months</span>
+                  </div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    ≈ <strong className="text-gray-700 dark:text-gray-300">$1.67/month</strong> — renew anytime
+                  </p>
+                </div>
+
+                <div className="sm:text-right">
+                  <div className="inline-flex items-center gap-2 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-sm font-medium px-4 py-2 rounded-full border border-green-200 dark:border-green-800">
+                    <CheckCircle className="size-4" />
+                    Everything included
+                  </div>
+                  <p className="text-xs text-gray-400 mt-2">No hidden fees. No subscriptions.</p>
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-3 mb-8">
+                {PRICING_FEATURES.map((f) => (
+                  <div key={f} className="flex items-center gap-2.5">
+                    <CheckCircle className="size-4 text-brand-500 flex-shrink-0" />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">{f}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="border-t border-gray-100 dark:border-gray-700 pt-6 flex flex-col sm:flex-row items-center gap-4">
+                <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(CONTACT_SUBJECT)}`} className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full sm:w-auto" rightIcon={<ArrowRight className="size-4" />}>
+                    Get started — $5 for 3 months
+                  </Button>
+                </a>
+                <p className="text-xs text-gray-400 text-center sm:text-left">
+                  Send us an email and we handle the rest within 24 hours.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-brand-50 dark:bg-brand-900/20 px-8 sm:px-10 py-4 border-t border-brand-100 dark:border-brand-800">
+              <p className="text-xs text-brand-700 dark:text-brand-300 text-center">
+                Compare: a single GDPR fine can reach <strong>€20 million</strong>. Legal consultation starts at hundreds per hour. At $5 for 3 months, compliance has never been more accessible.
+              </p>
+            </div>
           </div>
         </div>
       </section>

@@ -35,17 +35,16 @@ OpenPrivacyPolicy does not require users to create accounts or log in. Policies 
       {
         id: 'collection',
         title: 'Information We Collect',
-        content: `We collect minimal information, limited to what is necessary to operate the website and respond to publishing requests.
+        content: `We collect minimal information, limited to what is necessary to operate the website, process payments, and respond to publishing requests.
 
 Information you provide:
 • Email contact — when you send us a request to publish a privacy policy, we receive your email address and any content you include in the message (e.g., your app name, company name, and the policy text).
+• Payment information — when you purchase a hosting plan, payment is processed by our third-party payment provider. We receive confirmation of the transaction (amount, date, and plan period) but do not store your full card number, CVV, or sensitive payment credentials.
 
 Information collected automatically:
 • Usage data — aggregated page views and navigation data used to understand how visitors interact with the website.
 • Device and browser data — browser type, operating system, and referring URL, collected solely for performance and compatibility purposes.
-• IP address — used for security and approximate geographic analytics (country/region level only). Not linked to any personal identity.
-
-We do not collect payment information and do not store any financial data.`,
+• IP address — used for security and approximate geographic analytics (country/region level only). Not linked to any personal identity.`,
       },
       {
         id: 'use',
@@ -58,6 +57,25 @@ We do not collect payment information and do not store any financial data.`,
 • To comply with legal obligations — fulfilling requirements under applicable laws and regulations.
 
 We do not use your information to send marketing emails, sell data to third parties, or train machine learning models.`,
+      },
+      {
+        id: 'payments',
+        title: 'Payments and Billing',
+        content: `OpenPrivacyPolicy offers a 3-month hosting plan priced at $5.00 USD. This plan covers policy drafting, review, publishing, and hosting for the full three-month period.
+
+Payment processing:
+• Payments are handled by a PCI-compliant third-party payment processor. We do not store full card numbers or sensitive financial credentials on our servers.
+• Upon successful payment, we receive a transaction confirmation (amount, date, plan expiration) which is used solely to activate and maintain your hosting period.
+
+Billing records:
+• We retain transaction records (email, amount, plan period) for accounting and support purposes, in accordance with applicable financial and tax regulations.
+• These records are kept for up to 5 years as required by law, and are not used for marketing or shared with third parties outside of legal obligations.
+
+Renewal:
+• Hosting plans are not auto-renewed. When your 3-month period is near expiration, you may renew by contacting us again. We will not charge you without an explicit new request.
+
+Refunds:
+• Requests for refunds are evaluated on a case-by-case basis. Contact us at eversoftwarehouse@gmail.com within 7 days of purchase if you believe a refund is warranted.`,
       },
       {
         id: 'sharing',

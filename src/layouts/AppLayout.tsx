@@ -12,6 +12,8 @@ const NAV_LINKS = [
   { href: '/#how-it-works', label: 'How it works' },
 ]
 
+const CONTACT_HREF = 'mailto:eversoftwarehouse@gmail.com?subject=Privacy%20policy%20publishing%20request'
+
 function ThemeToggle() {
   const { theme, setTheme } = useThemeStore()
   const options: { value: Theme; icon: React.ReactNode }[] = [
@@ -78,7 +80,7 @@ export function AppLayout({ children, transparent }: AppLayoutProps) {
 
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <a href="/#contact">
+            <a href={CONTACT_HREF}>
               <Button size="sm">Contact us</Button>
             </a>
             <button
@@ -103,7 +105,7 @@ export function AppLayout({ children, transparent }: AppLayoutProps) {
               </a>
             ))}
             <a
-              href="/#contact"
+              href={CONTACT_HREF}
               className="block py-2.5 text-sm font-medium text-brand-600 dark:text-brand-400"
               onClick={() => setMenuOpen(false)}
             >
