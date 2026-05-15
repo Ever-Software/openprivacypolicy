@@ -80,20 +80,9 @@ export function AppLayout({ children, transparent }: AppLayoutProps) {
 
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            {isAuthenticated ? (
-              <Link to="/dashboard">
-                <Button size="sm">Dashboard</Button>
-              </Link>
-            ) : (
-              <>
-                <Link to="/login" className="hidden sm:block">
-                  <Button variant="ghost" size="sm">Sign in</Button>
-                </Link>
-                <Link to="/signup">
-                  <Button size="sm">Get started</Button>
-                </Link>
-              </>
-            )}
+            <a href="/#contact">
+              <Button size="sm">Contact us</Button>
+            </a>
             <button
               className="md:hidden p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800"
               onClick={() => setMenuOpen((v) => !v)}
@@ -115,6 +104,15 @@ export function AppLayout({ children, transparent }: AppLayoutProps) {
                 {link.label}
               </a>
             ))}
+            {!isAuthenticated && (
+              <a
+                href="/#contact"
+                className="block py-2.5 text-sm font-medium text-brand-600 dark:text-brand-400"
+                onClick={() => setMenuOpen(false)}
+              >
+                Contact us
+              </a>
+            )}
           </div>
         )}
       </header>
@@ -148,7 +146,8 @@ export function AppLayout({ children, transparent }: AppLayoutProps) {
           <div>
             <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Legal</p>
             <div className="flex flex-col gap-2">
-              {['Privacy Policy', 'Terms of Service', 'Cookie Policy', 'GDPR'].map((l) => (
+              <Link to="/privacy-policies/openprivacypolicy" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Privacy Policy</Link>
+              {['Terms of Service', 'Cookie Policy', 'GDPR'].map((l) => (
                 <a key={l} href="#" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">{l}</a>
               ))}
             </div>

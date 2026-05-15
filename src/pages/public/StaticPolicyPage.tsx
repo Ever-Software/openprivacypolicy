@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { Copy, Share2, Check, ShieldCheck, Sun, Moon, Monitor, Sparkles, FileText, Globe } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Logo } from '@/components/ui/Logo'
 import { Button } from '@/components/ui/Button'
 import { useThemeStore } from '@/store/themeStore'
@@ -60,6 +60,46 @@ function CopyLinkButton() {
 export function StaticPolicyPage() {
   const { slug } = useParams<{ slug: string }>()
   const policy = getStaticPolicy(slug ?? '')
+
+  useEffect(() => {
+    if (!policy) return
+    const prevTitle = document.title
+    document.title = `${policy.title} — ${policy.companyName} | OpenPrivacyPolicy`
+
+    const metaDesc = document.querySelector('meta[name="description"]')
+    const prevDesc = metaDesc?.getAttribute('content') ?? ''
+    metaDesc?.setAttribute('content', `Privacy policy of ${policy.appName} by ${policy.companyName}. Last updated ${policy.lastUpdated}. Hosted by OpenPrivacyPolicy.`)
+
+    const ogTitle = document.querySelector('meta[property="og:title"]')
+    ogTitle?.setAttribute('content', `${policy.title} — ${policy.companyName}`)
+
+    const ogDesc = document.querySelector('meta[property="og:description"]')
+    ogDesc?.setAttribute('content', `Official privacy policy of ${policy.appName}. Compliant with LGPD, GDPR, and CCPA.`)
+
+    const ldScript = document.createElement('script')
+    ldScript.type = 'application/ld+json'
+    ldScript.id = 'policy-ld'
+    ldScript.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: policy.title,
+      description: `Privacy policy of ${policy.appName} by ${policy.companyName}.`,
+      url: window.location.href,
+      dateModified: policy.lastUpdated,
+      publisher: {
+        '@type': 'Organization',
+        name: policy.companyName,
+        email: policy.contactEmail,
+      },
+    })
+    document.head.appendChild(ldScript)
+
+    return () => {
+      document.title = prevTitle
+      metaDesc?.setAttribute('content', prevDesc)
+      document.getElementById('policy-ld')?.remove()
+    }
+  }, [policy])
 
   if (!policy) {
     return (
@@ -166,6 +206,7 @@ export function StaticPolicyPage() {
             <CopyLinkButton />
           </div>
 
+          {slug !== 'openprivacypolicy' && (
           <div className="mt-8 pt-8 border-t border-gray-100 dark:border-gray-800">
             <div className="rounded-2xl bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-6">
               <div className="flex items-start gap-4">
@@ -209,6 +250,7 @@ export function StaticPolicyPage() {
               </div>
             </div>
           </div>
+          )}
         </div>
       </main>
     </div>

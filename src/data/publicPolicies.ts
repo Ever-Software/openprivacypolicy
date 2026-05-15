@@ -16,6 +16,164 @@ export interface StaticPolicy {
 
 export const STATIC_POLICIES: StaticPolicy[] = [
   {
+    slug: 'openprivacypolicy',
+    title: 'OpenPrivacyPolicy Privacy Policy',
+    appName: 'OpenPrivacyPolicy',
+    companyName: 'Ever Software House',
+    contactEmail: 'eversoftwarehouse@gmail.com',
+    lastUpdated: 'May 15, 2026',
+    sections: [
+      {
+        id: 'intro',
+        title: 'Introduction',
+        content: `OpenPrivacyPolicy is a service developed by Ever Software House that allows individuals and companies to create, host, and share privacy policies through a permanent public URL.
+
+This Privacy Policy describes what information we collect, how we use it, who we share it with, and what rights you have regarding your data when you use our platform at openprivacypolicy.com.
+
+By accessing or using OpenPrivacyPolicy, you agree to the terms described in this document. If you do not agree, please discontinue use of the service.`,
+      },
+      {
+        id: 'collection',
+        title: 'Information We Collect',
+        content: `We collect information in two ways: information you provide directly and information collected automatically.
+
+Information you provide:
+• Account data — name and email address used to create and manage your account.
+• Policy content — text, sections, and metadata of the privacy policies you create and publish through our editor.
+• Communications — messages you send us via email or the contact form.
+
+Information collected automatically:
+• Usage data — pages visited, features used, session duration, and navigation paths within the platform.
+• Device and browser data — browser type, operating system, screen resolution, and referring URL, collected to improve compatibility and performance.
+• IP address — used for security, fraud prevention, and approximate geographic analytics (country/region level only).
+• Cookies and similar technologies — see the Cookie Policy section below for details.
+
+We do not collect payment information directly. If a paid tier is introduced, payments will be processed by a third-party provider and we will never store your card details.`,
+      },
+      {
+        id: 'use',
+        title: 'How We Use Your Information',
+        content: `We use the information we collect for the following purposes:
+
+• To provide the service — creating, storing, and serving your published privacy policies via their public URLs.
+• To manage your account — authentication, account settings, and password recovery.
+• To improve the platform — analyzing aggregated usage patterns to identify bugs, optimize performance, and prioritize new features.
+• To communicate with you — responding to support requests, sending important service updates, and, with your consent, sharing product news.
+• To ensure security — detecting and preventing fraudulent, abusive, or unauthorized use of the platform.
+• To comply with legal obligations — fulfilling requirements under applicable laws and regulations.
+
+We do not use your policy content to train machine learning models or sell it to third parties.`,
+      },
+      {
+        id: 'sharing',
+        title: 'How We Share Your Information',
+        content: `We do not sell your personal data. We share information only in the following limited circumstances:
+
+Service providers:
+We work with trusted third-party companies that help us operate the platform — including cloud hosting, error monitoring, and analytics. These providers access data only to perform services on our behalf and are contractually bound to protect it.
+
+Public policy pages:
+Policies you choose to publish are intentionally accessible to anyone with the public URL. The content of published policies is public by design — do not include sensitive personal information in policy text itself.
+
+Legal requirements:
+We may disclose information if required by law, court order, or government authority, or when we believe disclosure is necessary to protect the safety of our users or the public.
+
+Business transfers:
+In the event of a merger, acquisition, or sale of assets, your data may be transferred as part of that transaction. We will notify you before such a transfer occurs.`,
+      },
+      {
+        id: 'cookies',
+        title: 'Cookies and Tracking',
+        content: `We use cookies and similar technologies to operate and improve the service.
+
+Essential cookies:
+Required for core functionality such as maintaining your login session and remembering your preferences (e.g., theme). These cannot be disabled without affecting service functionality.
+
+Analytics cookies:
+Used to understand how visitors interact with the platform — which pages are most visited, where users drop off, and how features are used. Data is aggregated and does not identify individual users. We use privacy-respecting analytics tools that anonymize IP addresses.
+
+We do not use advertising cookies or track you across third-party websites.
+
+You can control cookie preferences through your browser settings. Note that disabling essential cookies will impair your ability to use the service.`,
+      },
+      {
+        id: 'retention',
+        title: 'Data Retention',
+        content: `We retain your data for as long as your account is active or as needed to provide the service.
+
+• Account data is kept for the lifetime of your account.
+• Published policies remain accessible at their public URL until you delete them or close your account.
+• Usage and analytics data is retained in aggregated form for up to 24 months.
+• If you delete your account, your personal data and all associated policies are permanently removed within 30 days, except where retention is required by law.`,
+      },
+      {
+        id: 'security',
+        title: 'Data Security',
+        content: `We implement reasonable technical and organizational measures to protect your information:
+
+• All data transmitted between your browser and our servers is encrypted via HTTPS/TLS.
+• Account passwords are hashed using industry-standard algorithms — we never store plaintext passwords.
+• Access to production systems is restricted to authorized personnel only.
+• We monitor our infrastructure for suspicious activity and unauthorized access attempts.
+
+No method of transmission or storage is 100% secure. While we strive to protect your data, we cannot guarantee absolute security. If you believe your account has been compromised, contact us immediately at eversoftwarehouse@gmail.com.`,
+      },
+      {
+        id: 'rights',
+        title: 'Your Rights',
+        content: `Depending on your location, you may have the following rights regarding your personal data:
+
+• Access — request a copy of the personal data we hold about you.
+• Correction — request correction of inaccurate or incomplete information.
+• Deletion — request that we delete your account and associated data.
+• Portability — request an export of your policy content in a machine-readable format.
+• Objection — object to certain processing activities, such as analytics.
+• Withdraw consent — where processing is based on consent, you may withdraw it at any time.
+
+To exercise any of these rights, contact us at eversoftwarehouse@gmail.com. We will respond within 30 days. We may ask you to verify your identity before processing your request.`,
+      },
+      {
+        id: 'thirdParty',
+        title: 'Third-Party Services',
+        content: `OpenPrivacyPolicy relies on the following categories of third-party infrastructure:
+
+• Cloud hosting — our servers and databases are hosted on reputable cloud providers with SOC 2 compliance.
+• Error monitoring — we use error tracking tools to detect and diagnose application bugs. Error reports may include anonymized stack traces and browser metadata.
+• Analytics — we use privacy-focused analytics that do not fingerprint individual users or share data with advertising networks.
+
+Links to third-party websites may appear within the platform (e.g., in documentation or blog posts). We are not responsible for the privacy practices of those sites. We encourage you to review their policies before providing any personal information.`,
+      },
+      {
+        id: 'children',
+        title: "Children's Privacy",
+        content: `OpenPrivacyPolicy is not directed at children under the age of 13 (or 16 in the European Union). We do not knowingly collect personal data from children.
+
+If you are a parent or guardian and believe your child has created an account or provided personal data, please contact us at eversoftwarehouse@gmail.com and we will promptly delete the information.`,
+      },
+      {
+        id: 'changes',
+        title: 'Changes to This Policy',
+        content: `We may update this Privacy Policy periodically to reflect changes in our practices, legal requirements, or the features we offer.
+
+When we make material changes, we will notify you by:
+• Updating the "Last Updated" date at the top of this page.
+• Sending an email notification to registered users (for significant changes).
+
+Your continued use of the service after the effective date of any update constitutes acceptance of the revised policy. If you do not agree with the changes, you may delete your account before the changes take effect.`,
+      },
+      {
+        id: 'contact',
+        title: 'Contact',
+        content: `If you have any questions, concerns, or requests regarding this Privacy Policy or your personal data, please reach out to us:
+
+Ever Software House
+eversoftwarehouse@gmail.com
+
+We aim to respond to all privacy-related inquiries within 30 business days.`,
+      },
+    ],
+  },
+  {
     slug: 'financial-me',
     title: 'Financial ME Privacy Policy',
     appName: 'Financial ME',

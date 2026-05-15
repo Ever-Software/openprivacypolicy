@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom'
 import { Copy, Share2, Check, ArrowLeft, ShieldCheck } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { usePolicyStore } from '@/store/policyStore'
 import { Logo } from '@/components/ui/Logo'
 import { Button } from '@/components/ui/Button'
@@ -31,6 +31,22 @@ export function PublicPolicyPage() {
   const { slug } = useParams<{ slug: string }>()
   const { getPolicyBySlug } = usePolicyStore()
   const policy = getPolicyBySlug(slug ?? '')
+
+  useEffect(() => {
+    if (!policy || policy.status !== 'published') return
+    const prevTitle = document.title
+    document.title = `${policy.title} | OpenPrivacyPolicy`
+
+    const metaDesc = document.querySelector('meta[name="description"]')
+    const prevDesc = metaDesc?.getAttribute('content') ?? ''
+    const companyPart = policy.companyName ? ` by ${policy.companyName}` : ''
+    metaDesc?.setAttribute('content', `Privacy policy${companyPart}. Hosted by OpenPrivacyPolicy.`)
+
+    return () => {
+      document.title = prevTitle
+      metaDesc?.setAttribute('content', prevDesc)
+    }
+  }, [policy])
 
   if (!policy || policy.status !== 'published') {
     return (

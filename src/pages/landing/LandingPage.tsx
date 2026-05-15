@@ -1,14 +1,17 @@
-import { Link } from 'react-router-dom'
 import {
   ShieldCheck, Zap, Globe, FileText, BarChart3, Lock,
   ArrowRight, CheckCircle, Star, ChevronDown, ChevronUp,
-  Users, TrendingUp, Award,
+  Users, TrendingUp, Award, Mail,
 } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { Card } from '@/components/ui/Card'
 import { AppLayout } from '@/layouts/AppLayout'
+import { STATIC_POLICIES } from '@/data/publicPolicies'
+
+const CONTACT_EMAIL = 'eversoftwarehouse@gmail.com'
+const CONTACT_SUBJECT = 'Privacy policy publishing request'
 
 const FEATURES = [
   {
@@ -69,31 +72,31 @@ const TESTIMONIALS = [
 
 const FAQS = [
   {
-    q: 'Do I need a lawyer to use this?',
-    a: 'No — our templates are written by legal professionals and cover the most common use cases. However, for complex situations we recommend consulting a lawyer.',
+    q: 'How does the publishing process work?',
+    a: 'Just reach out by email describing your system, app, or platform. Our team drafts, reviews, and publishes a tailored privacy policy with a permanent public URL.',
   },
   {
     q: 'Is my policy publicly accessible?',
-    a: 'Yes, once published, your policy gets a clean public URL that you can link anywhere.',
+    a: 'Yes, once published, your policy gets a clean public URL that you can link anywhere — app stores, websites, or directly in your app.',
   },
   {
-    q: 'Can I edit my policy after publishing?',
-    a: 'Absolutely. You can update your policy anytime. Changes are reflected immediately on the public page.',
+    q: 'Can I update my policy after publishing?',
+    a: 'Absolutely. You can request updates anytime. Changes are reflected immediately on the public page.',
   },
   {
     q: 'What makes this different from a generic privacy policy generator?',
-    a: "OpenPrivacy lets you host and manage your policy in one place, with analytics, version tracking, and a branded public page — not just a downloadable PDF.",
+    a: "OpenPrivacy hosts and manages your policy in one place, with a branded public page and permanent URL — not just a downloadable document. We also handle the technical publication for you.",
   },
   {
-    q: 'Is there a free plan?',
-    a: 'Yes! Our free plan lets you create and publish one privacy policy. Upgrade for unlimited policies, analytics, and custom domains.',
+    q: 'Which regulations are covered?',
+    a: 'Our policies are crafted to cover the main regulations applicable to your product, including LGPD (Brazil), GDPR (Europe), and CCPA (California). We tailor the policy to the specifics of your system.',
   },
 ]
 
 const STATS = [
-  { value: '12,000+', label: 'Policies published', icon: <FileText className="size-5" /> },
-  { value: '3,500+', label: 'Companies trust us', icon: <Users className="size-5" /> },
-  { value: '99.9%', label: 'Uptime guaranteed', icon: <TrendingUp className="size-5" /> },
+  { value: `${STATIC_POLICIES.length}+`, label: 'Policies published', icon: <FileText className="size-5" /> },
+  { value: '1+', label: 'Companies trust us', icon: <Users className="size-5" /> },
+  { value: '99.99%', label: 'Uptime guaranteed', icon: <TrendingUp className="size-5" /> },
   { value: '4.9/5', label: 'Customer rating', icon: <Award className="size-5" /> },
 ]
 
@@ -126,7 +129,7 @@ export function LandingPage() {
       <section className="relative overflow-hidden gradient-hero pt-20 pb-24 sm:pt-28 sm:pb-32">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
           <Badge variant="brand" className="mb-6">
-            ✨ Now with AI-powered policy generation
+            ✨ Professional privacy policies, published for you
           </Badge>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white tracking-tight leading-[1.1] mb-6">
@@ -136,24 +139,24 @@ export function LandingPage() {
 
           <p className="text-lg sm:text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed mb-8">
             Create, host, and manage professional privacy policy pages in minutes.
-            No legal expertise required. Start free today.
+            No legal expertise required. Get in touch and we handle everything for you.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-12">
-            <Link to="/signup">
+            <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(CONTACT_SUBJECT)}`}>
               <Button size="lg" rightIcon={<ArrowRight className="size-4" />}>
-                Create your policy — free
+                Request my policy
               </Button>
-            </Link>
-            <Link to="/#how-it-works">
+            </a>
+            <a href="/#how-it-works">
               <Button size="lg" variant="outline">
                 See how it works
               </Button>
-            </Link>
+            </a>
           </div>
 
-          <div className="flex items-center justify-center gap-6 text-sm text-gray-400">
-            {['No credit card required', 'Publish in 5 minutes', 'GDPR & CCPA ready'].map((f) => (
+          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400">
+            {['LGPD, GDPR & CCPA ready', 'Permanent public URL', 'Response within 24 hours'].map((f) => (
               <div key={f} className="flex items-center gap-1.5">
                 <CheckCircle className="size-3.5 text-green-500" />
                 {f}
@@ -249,10 +252,10 @@ export function LandingPage() {
           <div className="text-center mb-16">
             <Badge variant="brand" className="mb-4">How it works</Badge>
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white tracking-tight mb-4">
-              From zero to published in minutes
+              Your policy, hosted in minutes
             </h2>
             <p className="text-lg text-gray-500 dark:text-gray-400">
-              Three simple steps to get your privacy policy online.
+              We don't write your policy — we host it with a clean, permanent URL.
             </p>
           </div>
 
@@ -260,18 +263,18 @@ export function LandingPage() {
             {[
               {
                 step: '01',
-                title: 'Create your account',
-                description: 'Sign up free and get instant access to all templates and the policy editor.',
+                title: 'Send your policy',
+                description: 'Share your existing privacy policy and a brief description of your app or platform. Our team reviews your submission and responds within 24 hours.',
               },
               {
                 step: '02',
-                title: 'Generate or edit your policy',
-                description: 'Choose a template or start from scratch. Customize every section to fit your business.',
+                title: 'We review and assist',
+                description: 'We check your policy, flag anything that may be missing or unclear, and format it professionally. We help — but the policy is yours.',
               },
               {
                 step: '03',
-                title: 'Publish and share',
-                description: 'Hit publish and get a clean, shareable URL to link from your website or app.',
+                title: 'We publish and share',
+                description: 'We publish your policy with a clean, permanent public URL ready to be linked from your app store listing, website, or app.',
               },
             ].map((item, i) => (
               <div key={item.step} className="relative">
@@ -288,11 +291,11 @@ export function LandingPage() {
           </div>
 
           <div className="mt-10 text-center">
-            <Link to="/signup">
+            <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(CONTACT_SUBJECT)}`}>
               <Button size="lg" rightIcon={<ArrowRight className="size-4" />}>
-                Get started for free
+                Contact us
               </Button>
-            </Link>
+            </a>
           </div>
         </div>
       </section>
@@ -306,7 +309,7 @@ export function LandingPage() {
               Privacy policies are not optional anymore
             </h2>
             <p className="text-gray-500 dark:text-gray-400 leading-relaxed mb-6">
-              GDPR, CCPA, and dozens of other regulations require you to clearly communicate how you collect and use data. Non-compliance carries serious fines and damages user trust.
+              LGPD, GDPR, CCPA, and dozens of other regulations require you to clearly communicate how you collect and use data. Non-compliance carries serious fines and damages user trust.
             </p>
             <div className="space-y-3">
               {[
@@ -387,27 +390,76 @@ export function LandingPage() {
         </div>
       </section>
 
+      {/* Contact */}
+      <section id="contact" className="py-20 sm:py-28 bg-gray-50 dark:bg-gray-900">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12">
+            <Badge variant="brand" className="mb-4">Contact us</Badge>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white tracking-tight mb-4">
+              Ready to publish your privacy policy?
+            </h2>
+            <p className="text-lg text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
+              Get in touch and we take care of everything: we draft, review, and publish a professional privacy policy tailored to your product.
+            </p>
+          </div>
+
+          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-8 shadow-sm">
+            <div className="flex flex-col sm:flex-row items-center gap-6">
+              <div className="shrink-0 size-14 rounded-2xl bg-brand-50 dark:bg-brand-900/30 flex items-center justify-center">
+                <Mail className="size-7 text-brand-600 dark:text-brand-400" />
+              </div>
+              <div className="flex-1 text-center sm:text-left">
+                <p className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                  Talk to our team
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                  Send us an email describing your system, platform, or app. We respond within 24 hours with a personalized proposal.
+                </p>
+                <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(CONTACT_SUBJECT)}`}>
+                  <Button size="lg" rightIcon={<ArrowRight className="size-4" />}>
+                    Send an email
+                  </Button>
+                </a>
+              </div>
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700 grid sm:grid-cols-3 gap-4">
+              {[
+                'Policy tailored to your product',
+                'Clean, permanent public URL',
+                'LGPD, GDPR & CCPA compliant',
+              ].map((text) => (
+                <div key={text} className="flex items-center gap-2.5">
+                  <CheckCircle className="size-4 text-green-500 flex-shrink-0" />
+                  <span className="text-sm text-gray-700 dark:text-gray-300">{text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
-      <section className="py-20 sm:py-28 bg-gray-50 dark:bg-gray-900">
+      <section className="py-20 sm:py-28">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <div className="gradient-brand p-12 rounded-3xl text-white">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
               Ready to get compliant?
             </h2>
             <p className="text-brand-100 leading-relaxed mb-8 max-w-md mx-auto">
-              Join 3,500+ companies already using OpenPrivacy to manage their privacy policies professionally.
+              Join companies already using OpenPrivacy to manage their privacy policies professionally.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link to="/signup">
+              <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(CONTACT_SUBJECT)}`}>
                 <Button size="lg" variant="secondary" className="bg-white text-brand-700 hover:bg-brand-50">
-                  Create your policy — free
+                  Contact us
                 </Button>
-              </Link>
-              <Link to="/login">
+              </a>
+              <a href="/#how-it-works">
                 <Button size="lg" className="bg-brand-700/50 hover:bg-brand-700 text-white border-0">
-                  Sign in
+                  How it works
                 </Button>
-              </Link>
+              </a>
             </div>
           </div>
         </div>
