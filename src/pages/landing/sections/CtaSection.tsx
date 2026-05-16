@@ -1,3 +1,5 @@
+import { Sparkles, ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
 import { CONTACT_HREF } from '@/config/contact'
 
@@ -10,17 +12,17 @@ export function CtaSection() {
             Ready to get compliant?
           </h2>
           <p className="text-brand-100 leading-relaxed mb-8 max-w-md mx-auto">
-            Join companies already using OpenPrivacy to manage their privacy policies professionally.
+            Generate a professional privacy policy in minutes — free. Or let us handle everything for you.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <a href={CONTACT_HREF}>
-              <Button size="lg" variant="secondary" className="bg-white text-brand-700 hover:bg-brand-50">
-                Contact us
+            <Link to="/generate">
+              <Button size="lg" variant="secondary" className="bg-white text-brand-700 hover:bg-brand-50" leftIcon={<Sparkles className="size-4" />}>
+                Generate free policy
               </Button>
-            </a>
-            <a href="/#how-it-works">
-              <Button size="lg" className="bg-brand-700/50 hover:bg-brand-700 text-white border-0">
-                How it works
+            </Link>
+            <a href={CONTACT_HREF}>
+              <Button size="lg" className="bg-brand-700/50 hover:bg-brand-700 text-white border-0" rightIcon={<ArrowRight className="size-4" />}>
+                Request managed hosting
               </Button>
             </a>
           </div>

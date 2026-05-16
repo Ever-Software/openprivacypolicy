@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/providers/ThemeProvider'
 import { LandingPage } from '@/pages/landing/LandingPage'
 import { PublicPolicyPage } from '@/pages/public/PublicPolicyPage'
 import { StaticPolicyPage } from '@/pages/public/StaticPolicyPage'
+import { PolicyGeneratorPage } from '@/pages/generator/PolicyGeneratorPage'
 import { TermsOfServicePage } from '@/pages/TermsOfServicePage'
 import { SitemapPage } from '@/pages/SitemapPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
@@ -23,6 +24,7 @@ export default function App() {
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/generate" element={<PolicyGeneratorPage />} />
           <Route path="/p/:slug" element={<PublicPolicyPage />} />
           <Route path="/privacy-policies/:slug" element={<StaticPolicyPage />} />
           <Route path="/terms-of-service" element={<TermsOfServicePage />} />

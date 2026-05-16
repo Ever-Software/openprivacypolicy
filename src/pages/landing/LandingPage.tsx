@@ -1,4 +1,5 @@
 import { AppLayout } from '@/layouts/AppLayout'
+import { DraftsBanner } from './sections/DraftsBanner'
 import { HeroSection } from './sections/HeroSection'
 import { StatsSection } from './sections/StatsSection'
 import { FeaturesSection } from './sections/FeaturesSection'
@@ -14,6 +15,7 @@ import { CtaSection } from './sections/CtaSection'
 export function LandingPage() {
   return (
     <AppLayout transparent>
+      <DraftsBanner />
       <HeroSection />
       <StatsSection />
       <FeaturesSection />

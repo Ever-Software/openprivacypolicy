@@ -1,4 +1,5 @@
-import { ArrowRight, CheckCircle } from 'lucide-react'
+import { ArrowRight, CheckCircle, Sparkles } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { CONTACT_HREF } from '@/config/contact'
@@ -23,14 +24,14 @@ export function HeroSection() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center mb-12">
-          <a href={CONTACT_HREF}>
-            <Button size="lg" rightIcon={<ArrowRight className="size-4" />}>
-              Request my policy
+          <Link to="/generate">
+            <Button size="lg" leftIcon={<Sparkles className="size-4" />}>
+              Generate my policy free
             </Button>
-          </a>
-          <a href="/#how-it-works">
-            <Button size="lg" variant="outline">
-              See how it works
+          </Link>
+          <a href={CONTACT_HREF}>
+            <Button size="lg" variant="outline" rightIcon={<ArrowRight className="size-4" />}>
+              Request managed hosting
             </Button>
           </a>
         </div>
