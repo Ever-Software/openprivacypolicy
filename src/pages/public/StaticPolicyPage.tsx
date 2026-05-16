@@ -109,13 +109,15 @@ export function StaticPolicyPage() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
+      <div className="fixed bottom-6 right-6 z-50 shadow-lg rounded-xl border border-gray-200 dark:border-gray-700">
+        <ThemeToggle />
+      </div>
       <header className="sticky top-0 z-10 glass border-b border-gray-100 dark:border-gray-800">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
           <Link to="/">
             <Logo size="sm" />
           </Link>
           <div className="flex items-center gap-2">
-            <ThemeToggle iconSize="sm" />
             <QRCodeModal url={currentUrl} policySlug={policy.slug} />
             <ShareButton title={`${policy.appName} — Privacy Policy`} slug={policy.slug} />
           </div>
