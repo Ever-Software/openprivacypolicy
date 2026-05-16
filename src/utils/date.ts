@@ -31,11 +31,4 @@ export function timeAgo(dateString: string): string {
   return 'Just now'
 }
 
-export function generateSlug(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim()
-}
+export { generateSlug } from '@/utils/string'

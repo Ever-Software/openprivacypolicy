@@ -1,46 +1,16 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Sun, Moon, Monitor, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { Logo } from '@/components/ui/Logo'
 import { Button } from '@/components/ui/Button'
-import { useThemeStore } from '@/store/themeStore'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { cn } from '@/utils/cn'
-import type { Theme } from '@/types'
+import { CONTACT_HREF } from '@/config/contact'
 
 const NAV_LINKS = [
   { href: '/#features', label: 'Features' },
   { href: '/#how-it-works', label: 'How it works' },
 ]
-
-const CONTACT_HREF = 'mailto:eversoftwarehouse@gmail.com?subject=Privacy%20policy%20publishing%20request'
-
-function ThemeToggle() {
-  const { theme, setTheme } = useThemeStore()
-  const options: { value: Theme; icon: React.ReactNode; label: string }[] = [
-    { value: 'light', icon: <Sun className="size-4" />, label: 'Light' },
-    { value: 'dark', icon: <Moon className="size-4" />, label: 'Dark' },
-    { value: 'system', icon: <Monitor className="size-4" />, label: 'System' },
-  ]
-  return (
-    <div className="flex items-center gap-0.5 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
-      {options.map((o) => (
-        <button
-          key={o.value}
-          onClick={() => setTheme(o.value)}
-          className={cn(
-            'p-1.5 rounded-lg transition-all',
-            theme === o.value
-              ? 'bg-white dark:bg-gray-700 text-brand-600 shadow-sm'
-              : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
-          )}
-          aria-label={`${o.value} mode`}
-        >
-          {o.icon}
-        </button>
-      ))}
-    </div>
-  )
-}
 
 interface AppLayoutProps {
   children: React.ReactNode
@@ -53,9 +23,7 @@ export function AppLayout({ children, transparent }: AppLayoutProps) {
   const location = useLocation()
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10)
-    }
+    const handleScroll = () => setScrolled(window.scrollY > 10)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -182,7 +150,6 @@ export function AppLayout({ children, transparent }: AppLayoutProps) {
         </div>
       </footer>
 
-      {/* Floating theme toggle — fixed bottom-right, visible on all screen sizes */}
       <div className="fixed bottom-6 right-6 z-50 shadow-lg rounded-xl border border-gray-200 dark:border-gray-700">
         <ThemeToggle />
       </div>

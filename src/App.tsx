@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/providers/ThemeProvider'
 import { LandingPage } from '@/pages/landing/LandingPage'
 import { PublicPolicyPage } from '@/pages/public/PublicPolicyPage'
 import { StaticPolicyPage } from '@/pages/public/StaticPolicyPage'
+import { NotFoundPage } from '@/pages/NotFoundPage'
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/p/:slug" element={<PublicPolicyPage />} />
           <Route path="/privacy-policies/:slug" element={<StaticPolicyPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
 

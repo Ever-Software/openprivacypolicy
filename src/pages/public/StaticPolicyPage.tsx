@@ -1,40 +1,11 @@
 import { Link, useParams } from 'react-router-dom'
-import { Copy, Share2, Check, ShieldCheck, Sun, Moon, Monitor, Sparkles, FileText, Globe } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { Copy, Share2, Check, ShieldCheck, Sparkles, FileText, Globe } from 'lucide-react'
+import { useState } from 'react'
 import { Logo } from '@/components/ui/Logo'
 import { Button } from '@/components/ui/Button'
-import { useThemeStore } from '@/store/themeStore'
-import { cn } from '@/utils/cn'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { getStaticPolicy } from '@/data/publicPolicies'
-import type { Theme } from '@/types'
-
-function ThemeToggle() {
-  const { theme, setTheme } = useThemeStore()
-  const options: { value: Theme; icon: React.ReactNode }[] = [
-    { value: 'light', icon: <Sun className="size-3.5" /> },
-    { value: 'dark', icon: <Moon className="size-3.5" /> },
-    { value: 'system', icon: <Monitor className="size-3.5" /> },
-  ]
-  return (
-    <div className="flex items-center gap-0.5 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
-      {options.map((o) => (
-        <button
-          key={o.value}
-          onClick={() => setTheme(o.value)}
-          className={cn(
-            'p-1.5 rounded-lg transition-all',
-            theme === o.value
-              ? 'bg-white dark:bg-gray-700 text-brand-600 shadow-sm'
-              : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
-          )}
-          aria-label={`${o.value} mode`}
-        >
-          {o.icon}
-        </button>
-      ))}
-    </div>
-  )
-}
+import { useSEOMeta } from '@/hooks/useSEOMeta'
 
 function CopyLinkButton() {
   const [copied, setCopied] = useState(false)
@@ -57,62 +28,50 @@ function CopyLinkButton() {
   )
 }
 
+function PolicyNotFound({ slug }: { slug: string | undefined }) {
+  return (
+    <div className="min-h-screen bg-white dark:bg-gray-950 flex flex-col items-center justify-center gap-4">
+      <ShieldCheck className="size-12 text-gray-300" />
+      <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">Policy not found</p>
+      <p className="text-sm text-gray-400">
+        No policy exists for <code className="font-mono">{slug}</code>.
+      </p>
+      <Link to="/">
+        <Button variant="ghost" size="sm">Go home</Button>
+      </Link>
+    </div>
+  )
+}
+
 export function StaticPolicyPage() {
   const { slug } = useParams<{ slug: string }>()
   const policy = getStaticPolicy(slug ?? '')
 
-  useEffect(() => {
-    if (!policy) return
-    const prevTitle = document.title
-    document.title = `${policy.title} — ${policy.companyName} | OpenPrivacyPolicy`
+  useSEOMeta(
+    policy
+      ? {
+          title: `${policy.title} — ${policy.companyName} | OpenPrivacyPolicy`,
+          description: `Privacy policy of ${policy.appName} by ${policy.companyName}. Last updated ${policy.lastUpdated}. Hosted by OpenPrivacyPolicy.`,
+          ogTitle: `${policy.title} — ${policy.companyName}`,
+          ogDescription: `Official privacy policy of ${policy.appName}. Compliant with LGPD, GDPR, and CCPA.`,
+          jsonLd: {
+            '@context': 'https://schema.org',
+            '@type': 'WebPage',
+            name: policy.title,
+            description: `Privacy policy of ${policy.appName} by ${policy.companyName}.`,
+            url: window.location.href,
+            dateModified: policy.lastUpdated,
+            publisher: {
+              '@type': 'Organization',
+              name: policy.companyName,
+              email: policy.contactEmail,
+            },
+          },
+        }
+      : { title: 'Policy not found | OpenPrivacyPolicy', description: 'This policy does not exist.' }
+  )
 
-    const metaDesc = document.querySelector('meta[name="description"]')
-    const prevDesc = metaDesc?.getAttribute('content') ?? ''
-    metaDesc?.setAttribute('content', `Privacy policy of ${policy.appName} by ${policy.companyName}. Last updated ${policy.lastUpdated}. Hosted by OpenPrivacyPolicy.`)
-
-    const ogTitle = document.querySelector('meta[property="og:title"]')
-    ogTitle?.setAttribute('content', `${policy.title} — ${policy.companyName}`)
-
-    const ogDesc = document.querySelector('meta[property="og:description"]')
-    ogDesc?.setAttribute('content', `Official privacy policy of ${policy.appName}. Compliant with LGPD, GDPR, and CCPA.`)
-
-    const ldScript = document.createElement('script')
-    ldScript.type = 'application/ld+json'
-    ldScript.id = 'policy-ld'
-    ldScript.textContent = JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'WebPage',
-      name: policy.title,
-      description: `Privacy policy of ${policy.appName} by ${policy.companyName}.`,
-      url: window.location.href,
-      dateModified: policy.lastUpdated,
-      publisher: {
-        '@type': 'Organization',
-        name: policy.companyName,
-        email: policy.contactEmail,
-      },
-    })
-    document.head.appendChild(ldScript)
-
-    return () => {
-      document.title = prevTitle
-      metaDesc?.setAttribute('content', prevDesc)
-      document.getElementById('policy-ld')?.remove()
-    }
-  }, [policy])
-
-  if (!policy) {
-    return (
-      <div className="min-h-screen bg-white dark:bg-gray-950 flex flex-col items-center justify-center gap-4">
-        <ShieldCheck className="size-12 text-gray-300" />
-        <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">Policy not found</p>
-        <p className="text-sm text-gray-400">No policy exists for <code className="font-mono">{slug}</code>.</p>
-        <Link to="/">
-          <Button variant="ghost" size="sm">Go home</Button>
-        </Link>
-      </div>
-    )
-  }
+  if (!policy) return <PolicyNotFound slug={slug} />
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
@@ -122,7 +81,7 @@ export function StaticPolicyPage() {
             <Logo size="sm" />
           </Link>
           <div className="flex items-center gap-2">
-            <ThemeToggle />
+            <ThemeToggle iconSize="sm" />
             <CopyLinkButton />
             <Button
               variant="ghost"
@@ -156,7 +115,7 @@ export function StaticPolicyPage() {
           </p>
         </div>
 
-        <nav className="mb-10 p-5 bg-gray-50 dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800">
+        <nav aria-label="Table of contents" className="mb-10 p-5 bg-gray-50 dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800">
           <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
             Contents
           </p>
@@ -195,61 +154,59 @@ export function StaticPolicyPage() {
 
         <div className="mt-16 pt-8 border-t border-gray-100 dark:border-gray-800">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Questions?{' '}
-                <a href={`mailto:${policy.contactEmail}`} className="text-brand-600 hover:underline">
-                  {policy.contactEmail}
-                </a>
-              </p>
-            </div>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Questions?{' '}
+              <a href={`mailto:${policy.contactEmail}`} className="text-brand-600 hover:underline">
+                {policy.contactEmail}
+              </a>
+            </p>
             <CopyLinkButton />
           </div>
 
           {slug !== 'openprivacypolicy' && (
-          <div className="mt-8 pt-8 border-t border-gray-100 dark:border-gray-800">
-            <div className="rounded-2xl bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-6">
-              <div className="flex items-start gap-4">
-                <div className="shrink-0 size-10 rounded-xl bg-brand-50 dark:bg-brand-950 flex items-center justify-center">
-                  <Sparkles className="size-5 text-brand-600 dark:text-brand-400" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">
-                    Hosted by{' '}
-                    <Link to="/" className="text-brand-600 dark:text-brand-400 hover:underline">
-                      OpenPrivacyPolicy
-                    </Link>
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed mb-4">
-                    OpenPrivacyPolicy is a platform for creating, hosting, and sharing privacy policies. Developers and businesses can publish their policies with a permanent public URL
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div className="flex items-start gap-2.5">
-                      <FileText className="size-4 text-brand-500 mt-0.5 shrink-0" />
-                      <div>
-                        <p className="text-xs font-medium text-gray-700 dark:text-gray-300">Form-based editor</p>
-                        <p className="text-xs text-gray-400 leading-relaxed">Create policies step by step using guided forms and ready-made section templates.</p>
+            <div className="mt-8 pt-8 border-t border-gray-100 dark:border-gray-800">
+              <div className="rounded-2xl bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-6">
+                <div className="flex items-start gap-4">
+                  <div className="shrink-0 size-10 rounded-xl bg-brand-50 dark:bg-brand-950 flex items-center justify-center">
+                    <Sparkles className="size-5 text-brand-600 dark:text-brand-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">
+                      Hosted by{' '}
+                      <Link to="/" className="text-brand-600 dark:text-brand-400 hover:underline">
+                        OpenPrivacyPolicy
+                      </Link>
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed mb-4">
+                      OpenPrivacyPolicy is a platform for creating, hosting, and sharing privacy policies. Developers and businesses can publish their policies with a permanent public URL
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div className="flex items-start gap-2.5">
+                        <FileText className="size-4 text-brand-500 mt-0.5 shrink-0" />
+                        <div>
+                          <p className="text-xs font-medium text-gray-700 dark:text-gray-300">Form-based editor</p>
+                          <p className="text-xs text-gray-400 leading-relaxed">Create policies step by step using guided forms and ready-made section templates.</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-start gap-2.5">
-                      <Globe className="size-4 text-brand-500 mt-0.5 shrink-0" />
-                      <div>
-                        <p className="text-xs font-medium text-gray-700 dark:text-gray-300">Permanent public URL</p>
-                        <p className="text-xs text-gray-400 leading-relaxed">Each policy gets a dedicated, always-available public link — ready to paste into app stores or websites.</p>
+                      <div className="flex items-start gap-2.5">
+                        <Globe className="size-4 text-brand-500 mt-0.5 shrink-0" />
+                        <div>
+                          <p className="text-xs font-medium text-gray-700 dark:text-gray-300">Permanent public URL</p>
+                          <p className="text-xs text-gray-400 leading-relaxed">Each policy gets a dedicated, always-available public link — ready to paste into app stores or websites.</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-start gap-2.5">
-                      <Sparkles className="size-4 text-brand-500 mt-0.5 shrink-0" />
-                      <div>
-                        <p className="text-xs font-medium text-gray-700 dark:text-gray-300">AI-assisted drafts</p>
-                        <p className="text-xs text-gray-400 leading-relaxed">Describe your app and let AI generate a tailored first draft. You review, edit, and publish.</p>
+                      <div className="flex items-start gap-2.5">
+                        <Sparkles className="size-4 text-brand-500 mt-0.5 shrink-0" />
+                        <div>
+                          <p className="text-xs font-medium text-gray-700 dark:text-gray-300">AI-assisted drafts</p>
+                          <p className="text-xs text-gray-400 leading-relaxed">Describe your app and let AI generate a tailored first draft. You review, edit, and publish.</p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
           )}
         </div>
       </main>
