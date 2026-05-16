@@ -22,11 +22,14 @@ export interface Testimonial {
 export interface Plan {
   id: string
   label: string
+  subtitle: string
   price: string
   period: string
-  monthly: string
+  savings?: string
   recommended: boolean
+  badge?: string
   features: string[]
+  cta: string
 }
 
 export interface Faq {
@@ -75,59 +78,61 @@ export const TESTIMONIALS: Testimonial[] = [
 
 export const PLANS: Plan[] = [
   {
-    id: '3m',
-    label: '3-Month Plan',
-    price: '$5',
+    id: 'starter',
+    label: 'Starter',
+    subtitle: 'Perfect for small projects',
+    price: '$4.99',
     period: '3 months',
-    monthly: '$1.67/mo',
     recommended: false,
     features: [
-      'Policy drafted and reviewed',
-      'Permanent public URL',
-      'LGPD, GDPR & CCPA compliance',
-      'Hosted for 3 months',
-      'Update requests included',
-      '24-hour response time',
+      'Policy drafted & reviewed',
+      'Public URL ready to link anywhere',
+      'LGPD, GDPR & CCPA compliant',
+      'Your policy stays online for 3 months',
+      '1 update included',
     ],
+    cta: 'Protect my website',
   },
   {
-    id: '6m',
-    label: '6-Month Plan',
-    price: '$10',
-    period: '6 months',
-    monthly: '$1.67/mo',
-    recommended: false,
-    features: [
-      'Policy drafted and reviewed',
-      'Permanent public URL',
-      'LGPD, GDPR & CCPA compliance',
-      'Hosted for 6 months',
-      'Update requests included',
-      '24-hour response time',
-    ],
-  },
-  {
-    id: '1y',
-    label: '1-Year Plan',
-    price: '$14.99',
-    period: '1 year',
-    monthly: '$1.25/mo',
+    id: 'professional',
+    label: 'Professional',
+    subtitle: 'Best value for growing products',
+    price: '$12.99',
+    period: 'year',
+    savings: 'Save 35%',
     recommended: true,
+    badge: 'Most Popular',
     features: [
-      'Policy drafted and reviewed',
-      'Permanent public URL',
-      'LGPD, GDPR & CCPA compliance',
-      'Hosted for 12 months',
-      'Update requests included',
-      '24-hour response time',
+      'Everything in Starter',
+      'Your policy stays online for 12 months',
+      'Unlimited updates',
+      'Priority support',
+      'Get updates within 24 hours',
     ],
+    cta: 'Start compliance',
+  },
+  {
+    id: 'business',
+    label: 'Business',
+    subtitle: 'For agencies & multiple projects',
+    price: '$29',
+    period: 'year',
+    recommended: false,
+    features: [
+      'Everything in Professional',
+      'Multiple policies',
+      'Advanced customization',
+      'Team access',
+      'Dedicated support',
+    ],
+    cta: 'Contact us',
   },
 ]
 
 export const FAQS: Faq[] = [
   {
     q: 'How much does it cost?',
-    a: 'We charge $5 for 3 months of hosting — less than $2 per month. That includes policy drafting, review, publishing, and hosting for the full period. Renewal is just as simple: send us a message.',
+    a: 'Plans start at $4.99 for 3 months. Our most popular Professional plan is $12.99/year — under $1.10 per month. That includes policy drafting, review, publishing, and hosting. Renewal is just as simple: send us a message.',
   },
   {
     q: 'How does the publishing process work?',

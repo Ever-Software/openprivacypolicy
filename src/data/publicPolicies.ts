@@ -21,7 +21,7 @@ export const STATIC_POLICIES: StaticPolicy[] = [
     appName: 'OpenPrivacyPolicy',
     companyName: 'Ever Software House',
     contactEmail: 'eversoftwarehouse@gmail.com',
-    lastUpdated: 'May 15, 2026',
+    lastUpdated: 'May 16, 2026',
     sections: [
       {
         id: 'intro',
@@ -61,7 +61,11 @@ We do not use your information to send marketing emails, sell data to third part
       {
         id: 'payments',
         title: 'Payments and Billing',
-        content: `OpenPrivacyPolicy offers a 3-month hosting plan priced at $5.00 USD. This plan covers policy drafting, review, publishing, and hosting for the full three-month period.
+        content: `OpenPrivacyPolicy offers three hosting plans:
+
+• Starter — $4.99 for 3 months. Includes policy drafting, review, publishing, and hosting for three months, with 1 update included.
+• Professional — $12.99 per year. Includes everything in Starter plus 12 months of hosting, unlimited updates, and priority support.
+• Business — $29 per year. Includes everything in Professional plus support for multiple policies, advanced customization, team access, and dedicated support.
 
 Payment processing:
 • Payments are handled by a PCI-compliant third-party payment processor. We do not store full card numbers or sensitive financial credentials on our servers.
@@ -72,7 +76,7 @@ Billing records:
 • These records are kept for up to 5 years as required by law, and are not used for marketing or shared with third parties outside of legal obligations.
 
 Renewal:
-• Hosting plans are not auto-renewed. When your 3-month period is near expiration, you may renew by contacting us again. We will not charge you without an explicit new request.
+• Hosting plans are not auto-renewed. When your plan period is near expiration, you may renew by contacting us again. We will not charge you without an explicit new request.
 
 Refunds:
 • Requests for refunds are evaluated on a case-by-case basis. Contact us at eversoftwarehouse@gmail.com within 7 days of purchase if you believe a refund is warranted.`,
