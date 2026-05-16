@@ -209,7 +209,7 @@ export function PolicyEditor({ policyId, onBack }: PolicyEditorProps) {
   }
 
   function handleSectionTitle(sectionId: string, newTitle: string) {
-    const sections = policy.sections.map(s =>
+    const sections = policy?.sections.map(s =>
       s.id === sectionId ? { ...s, title: newTitle } : s
     )
     updatePolicy(policyId, { sections })
@@ -221,11 +221,11 @@ export function PolicyEditor({ policyId, onBack }: PolicyEditorProps) {
   }
 
   function handleAddSection(section: Omit<PolicySection, 'id'>) {
-    addSection(policyId, { ...section, order: policy.sections.length })
+    addSection(policyId, { ...section, order: policy?.sections.length || 0 })
   }
 
   function handleTogglePublish() {
-    if (policy.status === 'published') {
+    if (policy?.status === 'published') {
       unpublishPolicy(policyId)
       toast.success('Policy unpublished — it is now a draft')
     } else {
