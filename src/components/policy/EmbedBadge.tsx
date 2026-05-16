@@ -33,7 +33,7 @@ export function EmbedBadge({ url, policySlug }: EmbedBadgeProps) {
         leftIcon={<Code className="size-3.5" />}
         onClick={() => setOpen(true)}
       >
-        Embed
+        <span className="hidden sm:inline">Embed</span>
       </Button>
 
       <Modal

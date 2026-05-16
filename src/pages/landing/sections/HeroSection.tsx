@@ -58,7 +58,7 @@ export function HeroSection() {
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Financial Me Privacy Policy</h2>
-                  <p className="text-sm text-gray-400 mt-1">Last updated: May 16, 2026</p>
+                  <p className="text-sm text-gray-400 mt-1">Last updated: May 10, 2026</p>
                 </div>
                 <Badge variant="success" dot>Published</Badge>
               </div>

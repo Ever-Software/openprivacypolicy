@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom'
-import { Copy, Share2, Check, ArrowLeft, ShieldCheck } from 'lucide-react'
+import { Copy, Share2, Check, ArrowLeft, ShieldCheck, Download } from 'lucide-react'
 import { useState } from 'react'
 import { usePolicyStore } from '@/store/policyStore'
 import { Logo } from '@/components/ui/Logo'
@@ -28,7 +28,26 @@ function CopyLinkButton({ slug }: { slug: string }) {
       leftIcon={copied ? <Check className="size-3.5 text-green-600" /> : <Copy className="size-3.5" />}
       onClick={handleCopy}
     >
-      {copied ? 'Copied!' : 'Copy link'}
+      <span className="hidden sm:inline">{copied ? 'Copied!' : 'Copy link'}</span>
+    </Button>
+  )
+}
+
+function DownloadPDFButton({ slug }: { slug: string }) {
+  function handleDownload() {
+    trackEvent('policy_pdf_downloaded', { slug })
+    window.print()
+  }
+
+  return (
+    <Button
+      variant="outline"
+      size="sm"
+      leftIcon={<Download className="size-3.5" />}
+      onClick={handleDownload}
+      className="print:hidden"
+    >
+      <span className="hidden sm:inline">Export PDF</span>
     </Button>
   )
 }
@@ -56,7 +75,7 @@ function ShareButton({ title, slug }: { title: string; slug: string }) {
       leftIcon={copied ? <Check className="size-3.5 text-green-600" /> : <Share2 className="size-3.5" />}
       onClick={handleShare}
     >
-      {copied ? 'Copied!' : 'Share'}
+      <span className="hidden sm:inline">{copied ? 'Copied!' : 'Share'}</span>
     </Button>
   )
 }
@@ -105,14 +124,19 @@ export function PublicPolicyPage() {
     <div className="min-h-screen bg-white dark:bg-gray-950">
       {/* Sticky header */}
       <header className="sticky top-0 z-10 glass border-b border-gray-100 dark:border-gray-800">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-2 overflow-hidden">
           <Link to="/">
             <Logo size="sm" />
           </Link>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 print:hidden">
             <QRCodeModal url={currentUrl} policySlug={policy.slug} />
-            <EmbedBadge url={currentUrl} policySlug={policy.slug} />
-            <CopyLinkButton slug={policy.slug} />
+            <span className="hidden sm:contents">
+              <EmbedBadge url={currentUrl} policySlug={policy.slug} />
+            </span>
+            <DownloadPDFButton slug={policy.slug} />
+            <span className="hidden sm:contents">
+              <CopyLinkButton slug={policy.slug} />
+            </span>
             <ShareButton title={policy.title} slug={policy.slug} />
           </div>
         </div>
@@ -188,7 +212,7 @@ export function PublicPolicyPage() {
 
         {/* Footer */}
         <div className="mt-16 pt-8 border-t border-gray-100 dark:border-gray-800">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 print:hidden">
             <PolicyFeedback policySlug={policy.slug} />
             <div className="flex items-center gap-2">
               <CopyLinkButton slug={policy.slug} />
@@ -204,11 +228,15 @@ export function PublicPolicyPage() {
             </p>
           )}
 
-          <div className="mt-6 pt-6 border-t border-gray-50 dark:border-gray-900 flex items-center gap-2 text-xs text-gray-400">
+          <div className="mt-6 pt-6 border-t border-gray-50 dark:border-gray-900 flex items-center gap-2 text-xs text-gray-400 print:hidden">
             <span>Hosted by</span>
             <Link to="/">
               <Logo size="sm" />
             </Link>
+          </div>
+
+          <div className="print-footer hidden print:block">
+            <p>Hosted by OpenPrivacyPolicy · {currentUrl}</p>
           </div>
         </div>
       </main>

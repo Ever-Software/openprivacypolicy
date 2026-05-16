@@ -26,7 +26,7 @@ export function QRCodeModal({ url, policySlug }: QRCodeModalProps) {
         leftIcon={<QrCode className="size-3.5" />}
         onClick={handleOpen}
       >
-        QR Code
+        <span className="hidden sm:inline">QR Code</span>
       </Button>
 
       <Modal
