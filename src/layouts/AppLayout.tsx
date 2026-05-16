@@ -134,7 +134,8 @@ export function AppLayout({ children, transparent }: AppLayoutProps) {
             <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Legal</p>
             <div className="flex flex-col gap-2">
               <Link to="/privacy-policies/openprivacypolicy" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Privacy Policy</Link>
-              {['Terms of Service', 'Cookie Policy', 'GDPR'].map((l) => (
+              <Link to="/terms-of-service" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Terms of Service</Link>
+              {['Cookie Policy', 'GDPR'].map((l) => (
                 <a key={l} href="#" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">{l}</a>
               ))}
             </div>

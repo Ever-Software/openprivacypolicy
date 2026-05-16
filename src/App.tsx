@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/providers/ThemeProvider'
 import { LandingPage } from '@/pages/landing/LandingPage'
 import { PublicPolicyPage } from '@/pages/public/PublicPolicyPage'
 import { StaticPolicyPage } from '@/pages/public/StaticPolicyPage'
+import { TermsOfServicePage } from '@/pages/TermsOfServicePage'
 import { SitemapPage } from '@/pages/SitemapPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/p/:slug" element={<PublicPolicyPage />} />
           <Route path="/privacy-policies/:slug" element={<StaticPolicyPage />} />
+          <Route path="/terms-of-service" element={<TermsOfServicePage />} />
           <Route path="/sitemap" element={<SitemapPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
