@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle, ShieldCheck } from 'lucide-react'
+import { ArrowRight, CheckCircle } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { CONTACT_HREF } from '@/config/contact'
