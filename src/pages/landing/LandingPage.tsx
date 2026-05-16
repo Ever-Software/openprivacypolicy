@@ -17,11 +17,11 @@ export function LandingPage() {
       <HeroSection />
       <StatsSection />
       <FeaturesSection />
+      <PoliciesSection />
       <HowItWorksSection />
       <BenefitsSection />
       <PricingSection />
       <TestimonialsSection />
-      <PoliciesSection />
       <FaqSection />
       <ContactSection />
       <CtaSection />

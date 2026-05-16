@@ -51,19 +51,19 @@ export function HeroSection() {
               <div className="size-3 rounded-full bg-amber-400" />
               <div className="size-3 rounded-full bg-green-400" />
               <div className="flex-1 mx-3 h-6 bg-white dark:bg-gray-700 rounded-lg flex items-center px-3">
-                <span className="text-xs text-gray-400">openprivacypolicy.com/p/acme-corp</span>
+                <span className="text-xs text-gray-400">openprivacypolicy.com/p/financial-me</span>
               </div>
             </div>
             <div className="p-8 text-left">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Acme Corp Privacy Policy</h2>
-                  <p className="text-sm text-gray-400 mt-1">Last updated: November 20, 2024</p>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Financial Me Privacy Policy</h2>
+                  <p className="text-sm text-gray-400 mt-1">Last updated: May 16, 2026</p>
                 </div>
                 <Badge variant="success" dot>Published</Badge>
               </div>
               <div className="space-y-4">
-                {['Introduction', 'Information We Collect', 'How We Use Your Information', 'Data Security'].map((s) => (
+                {['Introduction', 'Financial Data We Collect', 'How We Use Your Data', 'Data Security'].map((s) => (
                   <div key={s} className="flex items-center gap-3">
                     <div className="w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0" />
                     <div>
