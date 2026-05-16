@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Sun, Moon, Monitor, Menu, X } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Logo } from '@/components/ui/Logo'
 import { Button } from '@/components/ui/Button'
 import { useThemeStore } from '@/store/themeStore'
@@ -49,16 +49,39 @@ interface AppLayoutProps {
 
 export function AppLayout({ children, transparent }: AppLayoutProps) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    if (!menuOpen) return
+    const handleScroll = () => setMenuOpen(false)
+    const timer = setTimeout(() => {
+      window.addEventListener('scroll', handleScroll, { passive: true })
+    }, 150)
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [menuOpen])
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 flex flex-col">
       <header
         className={cn(
           'sticky top-0 z-40 transition-all duration-200',
-          transparent && location.pathname === '/'
-            ? 'bg-transparent'
-            : 'glass border-b border-gray-100 dark:border-gray-800'
+          scrolled
+            ? 'bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800 shadow-sm'
+            : transparent && location.pathname === '/'
+              ? 'bg-transparent'
+              : 'glass border-b border-gray-100 dark:border-gray-800'
         )}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">

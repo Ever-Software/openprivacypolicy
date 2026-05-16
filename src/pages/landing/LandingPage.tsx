@@ -1,9 +1,10 @@
 import {
   ShieldCheck, Zap, Globe, FileText, BarChart3, Lock,
   ArrowRight, CheckCircle, Star, ChevronDown, ChevronUp,
-  Users, TrendingUp, Award, Mail, Sparkles,
+  Users, TrendingUp, Award, Mail, Sparkles, ExternalLink,
 } from 'lucide-react'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { Card } from '@/components/ui/Card'
@@ -70,13 +71,55 @@ const TESTIMONIALS = [
   },
 ]
 
-const PRICING_FEATURES = [
-  'Policy drafted and reviewed by our team',
-  'Permanent public URL, ready to link anywhere',
-  'LGPD, GDPR & CCPA compliance included',
-  'Hosted for 3 full months',
-  'Update requests during the period',
-  '24-hour response time',
+const PLANS = [
+  {
+    id: '3m',
+    label: '3-Month Plan',
+    price: '$5',
+    period: '3 months',
+    monthly: '$1.67/mo',
+    recommended: false,
+    features: [
+      'Policy drafted and reviewed',
+      'Permanent public URL',
+      'LGPD, GDPR & CCPA compliance',
+      'Hosted for 3 months',
+      'Update requests included',
+      '24-hour response time',
+    ],
+  },
+  {
+    id: '6m',
+    label: '6-Month Plan',
+    price: '$10',
+    period: '6 months',
+    monthly: '$1.67/mo',
+    recommended: false,
+    features: [
+      'Policy drafted and reviewed',
+      'Permanent public URL',
+      'LGPD, GDPR & CCPA compliance',
+      'Hosted for 6 months',
+      'Update requests included',
+      '24-hour response time',
+    ],
+  },
+  {
+    id: '1y',
+    label: '1-Year Plan',
+    price: '$14.99',
+    period: '1 year',
+    monthly: '$1.25/mo',
+    recommended: true,
+    features: [
+      'Policy drafted and reviewed',
+      'Permanent public URL',
+      'LGPD, GDPR & CCPA compliance',
+      'Hosted for 12 months',
+      'Update requests included',
+      '24-hour response time',
+    ],
+  },
 ]
 
 const FAQS = [
@@ -352,7 +395,7 @@ export function LandingPage() {
 
       {/* Pricing */}
       <section id="pricing" className="py-20 sm:py-28 bg-gray-50 dark:bg-gray-900">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
             <Badge variant="brand" className="mb-4">Pricing</Badge>
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white tracking-tight mb-4">
@@ -363,62 +406,68 @@ export function LandingPage() {
             </p>
           </div>
 
-          <div className="relative bg-white dark:bg-gray-800 rounded-3xl border-2 border-brand-500 shadow-xl overflow-hidden">
-            <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-brand-400 via-brand-500 to-brand-600" />
+          <div className="grid md:grid-cols-3 gap-6">
+            {PLANS.map((plan) => (
+              <div
+                key={plan.id}
+                className={`relative rounded-3xl overflow-hidden flex flex-col ${
+                  plan.recommended
+                    ? 'bg-white dark:bg-gray-800 border-2 border-brand-500 shadow-xl scale-[1.03]'
+                    : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm'
+                }`}
+              >
+                {plan.recommended && (
+                  <>
+                    <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-brand-400 via-brand-500 to-brand-600" />
+                    <div className="absolute top-3 right-3">
+                      <span className="inline-flex items-center gap-1 bg-brand-500 text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+                        <Sparkles className="size-3" />
+                        Recommended
+                      </span>
+                    </div>
+                  </>
+                )}
 
-            <div className="p-8 sm:p-10">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-8">
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <Sparkles className="size-4 text-brand-500" />
-                    <span className="text-sm font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-wide">
-                      3-Month Hosting Plan
-                    </span>
-                  </div>
-                  <div className="flex items-end gap-2">
-                    <span className="text-5xl font-black text-gray-900 dark:text-white">$5</span>
-                    <span className="text-gray-400 mb-2">/ 3 months</span>
-                  </div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    ≈ <strong className="text-gray-700 dark:text-gray-300">$1.67/month</strong> — renew anytime
+                <div className="p-7 flex flex-col flex-1">
+                  <p className="text-sm font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-wide mb-3">
+                    {plan.label}
                   </p>
-                </div>
-
-                <div className="sm:text-right">
-                  <div className="inline-flex items-center gap-2 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-sm font-medium px-4 py-2 rounded-full border border-green-200 dark:border-green-800">
-                    <CheckCircle className="size-4" />
-                    Everything included
+                  <div className="flex items-end gap-2 mb-1">
+                    <span className="text-4xl font-black text-gray-900 dark:text-white">{plan.price}</span>
+                    <span className="text-gray-400 mb-1.5">/ {plan.period}</span>
                   </div>
-                  <p className="text-xs text-gray-400 mt-2">No hidden fees. No subscriptions.</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+                    ≈ <strong className="text-gray-700 dark:text-gray-300">{plan.monthly}</strong>
+                  </p>
+
+                  <div className="space-y-2.5 mb-8 flex-1">
+                    {plan.features.map((f) => (
+                      <div key={f} className="flex items-center gap-2.5">
+                        <CheckCircle className="size-4 text-brand-500 flex-shrink-0" />
+                        <span className="text-sm text-gray-700 dark:text-gray-300">{f}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(CONTACT_SUBJECT + ' - ' + plan.label)}`}>
+                    <Button
+                      size="md"
+                      variant={plan.recommended ? 'primary' : 'outline'}
+                      className="w-full"
+                      rightIcon={<ArrowRight className="size-4" />}
+                    >
+                      Get started
+                    </Button>
+                  </a>
                 </div>
               </div>
+            ))}
+          </div>
 
-              <div className="grid sm:grid-cols-2 gap-3 mb-8">
-                {PRICING_FEATURES.map((f) => (
-                  <div key={f} className="flex items-center gap-2.5">
-                    <CheckCircle className="size-4 text-brand-500 flex-shrink-0" />
-                    <span className="text-sm text-gray-700 dark:text-gray-300">{f}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="border-t border-gray-100 dark:border-gray-700 pt-6 flex flex-col sm:flex-row items-center gap-4">
-                <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(CONTACT_SUBJECT)}`} className="w-full sm:w-auto">
-                  <Button size="lg" className="w-full sm:w-auto" rightIcon={<ArrowRight className="size-4" />}>
-                    Get started — $5 for 3 months
-                  </Button>
-                </a>
-                <p className="text-xs text-gray-400 text-center sm:text-left">
-                  Send us an email and we handle the rest within 24 hours.
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-brand-50 dark:bg-brand-900/20 px-8 sm:px-10 py-4 border-t border-brand-100 dark:border-brand-800">
-              <p className="text-xs text-brand-700 dark:text-brand-300 text-center">
-                Compare: a single GDPR fine can reach <strong>€20 million</strong>. Legal consultation starts at hundreds per hour. At $5 for 3 months, compliance has never been more accessible.
-              </p>
-            </div>
+          <div className="mt-8 bg-brand-50 dark:bg-brand-900/20 rounded-2xl px-6 py-4 border border-brand-100 dark:border-brand-800">
+            <p className="text-xs text-brand-700 dark:text-brand-300 text-center">
+              Compare: a single GDPR fine can reach <strong>€20 million</strong>. Legal consultation starts at hundreds per hour. At $5 for 3 months, compliance has never been more accessible.
+            </p>
           </div>
         </div>
       </section>
@@ -455,6 +504,52 @@ export function LandingPage() {
                 </div>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Published Policies */}
+      <section id="policies" className="py-20 sm:py-28">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12">
+            <Badge variant="brand" className="mb-4">Live policies</Badge>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white tracking-tight mb-4">
+              Policies hosted by us
+            </h2>
+            <p className="text-lg text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
+              Real privacy policies, published and hosted on our platform.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            {[
+              STATIC_POLICIES.find((p) => p.slug === 'openprivacypolicy')!,
+              ...STATIC_POLICIES.filter((p) => p.slug !== 'openprivacypolicy').slice(0, 4),
+            ]
+              .filter(Boolean)
+              .slice(0, 5)
+              .map((policy) => (
+                <Link
+                  key={policy.slug}
+                  to={`/privacy-policies/${policy.slug}`}
+                  className="group flex items-center justify-between gap-4 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-brand-300 dark:hover:border-brand-700 rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition-all"
+                >
+                  <div className="flex items-center gap-4 min-w-0">
+                    <div className="shrink-0 size-10 rounded-xl bg-brand-50 dark:bg-brand-900/30 flex items-center justify-center">
+                      <ShieldCheck className="size-5 text-brand-600 dark:text-brand-400" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white truncate group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                        {policy.title}
+                      </p>
+                      <p className="text-xs text-gray-400 mt-0.5">
+                        {policy.appName} · Updated {policy.lastUpdated}
+                      </p>
+                    </div>
+                  </div>
+                  <ExternalLink className="size-4 text-gray-300 dark:text-gray-600 group-hover:text-brand-500 flex-shrink-0 transition-colors" />
+                </Link>
+              ))}
           </div>
         </div>
       </section>
