@@ -5,10 +5,11 @@ interface SEOMeta {
   description: string
   ogTitle?: string
   ogDescription?: string
+  ogUrl?: string
   jsonLd?: Record<string, unknown>
 }
 
-export function useSEOMeta({ title, description, ogTitle, ogDescription, jsonLd }: SEOMeta) {
+export function useSEOMeta({ title, description, ogTitle, ogDescription, ogUrl, jsonLd }: SEOMeta) {
   useEffect(() => {
     const prevTitle = document.title
     document.title = title
@@ -17,8 +18,17 @@ export function useSEOMeta({ title, description, ogTitle, ogDescription, jsonLd 
     const prevDesc = metaDesc?.getAttribute('content') ?? ''
     metaDesc?.setAttribute('content', description)
 
-    document.querySelector('meta[property="og:title"]')?.setAttribute('content', ogTitle ?? title)
-    document.querySelector('meta[property="og:description"]')?.setAttribute('content', ogDescription ?? description)
+    const ogTitleEl = document.querySelector('meta[property="og:title"]')
+    const prevOgTitle = ogTitleEl?.getAttribute('content') ?? ''
+    ogTitleEl?.setAttribute('content', ogTitle ?? title)
+
+    const ogDescEl = document.querySelector('meta[property="og:description"]')
+    const prevOgDesc = ogDescEl?.getAttribute('content') ?? ''
+    ogDescEl?.setAttribute('content', ogDescription ?? description)
+
+    const ogUrlEl = document.querySelector('meta[property="og:url"]')
+    const prevOgUrl = ogUrlEl?.getAttribute('content') ?? ''
+    if (ogUrl) ogUrlEl?.setAttribute('content', ogUrl)
 
     if (jsonLd) {
       const script = document.createElement('script')
@@ -31,7 +41,10 @@ export function useSEOMeta({ title, description, ogTitle, ogDescription, jsonLd 
     return () => {
       document.title = prevTitle
       metaDesc?.setAttribute('content', prevDesc)
+      ogTitleEl?.setAttribute('content', prevOgTitle)
+      ogDescEl?.setAttribute('content', prevOgDesc)
+      ogUrlEl?.setAttribute('content', prevOgUrl)
       document.getElementById('page-ld')?.remove()
     }
-  }, [title, description, ogTitle, ogDescription, jsonLd])
+  }, [title, description, ogTitle, ogDescription, ogUrl, jsonLd])
 }

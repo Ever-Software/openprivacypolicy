@@ -6,13 +6,17 @@ import { Button } from '@/components/ui/Button'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { getStaticPolicy } from '@/data/publicPolicies'
 import { useSEOMeta } from '@/hooks/useSEOMeta'
+import { trackEvent } from '@/utils/analytics'
+import { QRCodeModal } from '@/components/policy/QRCodeModal'
+import { PolicyFeedback } from '@/components/policy/PolicyFeedback'
 
-function CopyLinkButton() {
+function CopyLinkButton({ slug }: { slug: string }) {
   const [copied, setCopied] = useState(false)
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(window.location.href)
+  async function handleCopy() {
+    await navigator.clipboard.writeText(window.location.href)
     setCopied(true)
+    trackEvent('policy_link_copied', { slug })
     setTimeout(() => setCopied(false), 2000)
   }
 
@@ -24,6 +28,34 @@ function CopyLinkButton() {
       onClick={handleCopy}
     >
       {copied ? 'Copied!' : 'Copy link'}
+    </Button>
+  )
+}
+
+function ShareButton({ title, slug }: { title: string; slug: string }) {
+  const [copied, setCopied] = useState(false)
+
+  async function handleShare() {
+    const url = window.location.href
+    if (navigator.share) {
+      await navigator.share({ title, url })
+      trackEvent('policy_shared', { slug, method: 'native' })
+    } else {
+      await navigator.clipboard.writeText(url)
+      setCopied(true)
+      trackEvent('policy_shared', { slug, method: 'clipboard' })
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }
+
+  return (
+    <Button
+      variant="ghost"
+      size="sm"
+      leftIcon={copied ? <Check className="size-3.5 text-green-600" /> : <Share2 className="size-3.5" />}
+      onClick={handleShare}
+    >
+      {copied ? 'Copied!' : 'Share'}
     </Button>
   )
 }
@@ -46,6 +78,7 @@ function PolicyNotFound({ slug }: { slug: string | undefined }) {
 export function StaticPolicyPage() {
   const { slug } = useParams<{ slug: string }>()
   const policy = getStaticPolicy(slug ?? '')
+  const currentUrl = `https://openprivacypolicy.com/privacy-policies/${slug}`
 
   useSEOMeta(
     policy
@@ -54,12 +87,13 @@ export function StaticPolicyPage() {
           description: `Privacy policy of ${policy.appName} by ${policy.companyName}. Last updated ${policy.lastUpdated}. Hosted by OpenPrivacyPolicy.`,
           ogTitle: `${policy.title} — ${policy.companyName}`,
           ogDescription: `Official privacy policy of ${policy.appName}. Compliant with LGPD, GDPR, and CCPA.`,
+          ogUrl: currentUrl,
           jsonLd: {
             '@context': 'https://schema.org',
             '@type': 'WebPage',
             name: policy.title,
             description: `Privacy policy of ${policy.appName} by ${policy.companyName}.`,
-            url: window.location.href,
+            url: currentUrl,
             dateModified: policy.lastUpdated,
             publisher: {
               '@type': 'Organization',
@@ -82,19 +116,8 @@ export function StaticPolicyPage() {
           </Link>
           <div className="flex items-center gap-2">
             <ThemeToggle iconSize="sm" />
-            <CopyLinkButton />
-            <Button
-              variant="ghost"
-              size="sm"
-              leftIcon={<Share2 className="size-3.5" />}
-              onClick={() => {
-                if (navigator.share) {
-                  navigator.share({ title: `${policy.appName} — Privacy Policy`, url: window.location.href })
-                }
-              }}
-            >
-              Share
-            </Button>
+            <QRCodeModal url={currentUrl} policySlug={policy.slug} />
+            <ShareButton title={`${policy.appName} — Privacy Policy`} slug={policy.slug} />
           </div>
         </div>
       </header>
@@ -154,13 +177,19 @@ export function StaticPolicyPage() {
 
         <div className="mt-16 pt-8 border-t border-gray-100 dark:border-gray-800">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Questions?{' '}
-              <a href={`mailto:${policy.contactEmail}`} className="text-brand-600 hover:underline">
-                {policy.contactEmail}
-              </a>
-            </p>
-            <CopyLinkButton />
+            <div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Questions?{' '}
+                <a href={`mailto:${policy.contactEmail}`} className="text-brand-600 hover:underline">
+                  {policy.contactEmail}
+                </a>
+              </p>
+            </div>
+            <CopyLinkButton slug={policy.slug} />
+          </div>
+
+          <div className="mt-6">
+            <PolicyFeedback policySlug={policy.slug} />
           </div>
 
           {slug !== 'openprivacypolicy' && (

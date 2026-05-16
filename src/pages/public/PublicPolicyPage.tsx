@@ -1,17 +1,23 @@
 import { useParams, Link } from 'react-router-dom'
 import { Copy, Share2, Check, ArrowLeft, ShieldCheck } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { usePolicyStore } from '@/store/policyStore'
 import { Logo } from '@/components/ui/Logo'
 import { Button } from '@/components/ui/Button'
 import { formatDate } from '@/utils/date'
+import { useSEOMeta } from '@/hooks/useSEOMeta'
+import { trackEvent } from '@/utils/analytics'
+import { QRCodeModal } from '@/components/policy/QRCodeModal'
+import { PolicyFeedback } from '@/components/policy/PolicyFeedback'
+import { EmbedBadge } from '@/components/policy/EmbedBadge'
 
-function CopyLinkButton() {
+function CopyLinkButton({ slug }: { slug: string }) {
   const [copied, setCopied] = useState(false)
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(window.location.href)
+  async function handleCopy() {
+    await navigator.clipboard.writeText(window.location.href)
     setCopied(true)
+    trackEvent('policy_link_copied', { slug })
     setTimeout(() => setCopied(false), 2000)
   }
 
@@ -27,28 +33,56 @@ function CopyLinkButton() {
   )
 }
 
+function ShareButton({ title, slug }: { title: string; slug: string }) {
+  const [copied, setCopied] = useState(false)
+
+  async function handleShare() {
+    const url = window.location.href
+    if (navigator.share) {
+      await navigator.share({ title, url })
+      trackEvent('policy_shared', { slug, method: 'native' })
+    } else {
+      await navigator.clipboard.writeText(url)
+      setCopied(true)
+      trackEvent('policy_shared', { slug, method: 'clipboard' })
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }
+
+  return (
+    <Button
+      variant="ghost"
+      size="sm"
+      leftIcon={copied ? <Check className="size-3.5 text-green-600" /> : <Share2 className="size-3.5" />}
+      onClick={handleShare}
+    >
+      {copied ? 'Copied!' : 'Share'}
+    </Button>
+  )
+}
+
 export function PublicPolicyPage() {
   const { slug } = useParams<{ slug: string }>()
   const { getPolicyBySlug } = usePolicyStore()
   const policy = getPolicyBySlug(slug ?? '')
+  const isPublished = policy?.status === 'published'
 
-  useEffect(() => {
-    if (!policy || policy.status !== 'published') return
-    const prevTitle = document.title
-    document.title = `${policy.title} | OpenPrivacyPolicy`
+  useSEOMeta(
+    isPublished && policy
+      ? {
+          title: `${policy.title} | OpenPrivacyPolicy`,
+          description: `Privacy policy${policy.companyName ? ` by ${policy.companyName}` : ''}. Hosted by OpenPrivacyPolicy.`,
+          ogTitle: policy.title,
+          ogDescription: `Official privacy policy${policy.companyName ? ` of ${policy.companyName}` : ''}. Hosted by OpenPrivacyPolicy.`,
+          ogUrl: `https://openprivacypolicy.com/p/${policy.slug}`,
+        }
+      : {
+          title: 'Policy not found | OpenPrivacyPolicy',
+          description: 'This privacy policy does not exist or has not been published yet.',
+        }
+  )
 
-    const metaDesc = document.querySelector('meta[name="description"]')
-    const prevDesc = metaDesc?.getAttribute('content') ?? ''
-    const companyPart = policy.companyName ? ` by ${policy.companyName}` : ''
-    metaDesc?.setAttribute('content', `Privacy policy${companyPart}. Hosted by OpenPrivacyPolicy.`)
-
-    return () => {
-      document.title = prevTitle
-      metaDesc?.setAttribute('content', prevDesc)
-    }
-  }, [policy])
-
-  if (!policy || policy.status !== 'published') {
+  if (!isPublished) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex flex-col items-center justify-center px-4">
         <ShieldCheck className="size-12 text-gray-300 mb-4" />
@@ -65,6 +99,8 @@ export function PublicPolicyPage() {
     )
   }
 
+  const currentUrl = `https://openprivacypolicy.com/p/${policy.slug}`
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
       {/* Sticky header */}
@@ -74,19 +110,10 @@ export function PublicPolicyPage() {
             <Logo size="sm" />
           </Link>
           <div className="flex items-center gap-2">
-            <CopyLinkButton />
-            <Button
-              variant="ghost"
-              size="sm"
-              leftIcon={<Share2 className="size-3.5" />}
-              onClick={() => {
-                if (navigator.share) {
-                  navigator.share({ title: policy.title, url: window.location.href })
-                }
-              }}
-            >
-              Share
-            </Button>
+            <QRCodeModal url={currentUrl} policySlug={policy.slug} />
+            <EmbedBadge url={currentUrl} policySlug={policy.slug} />
+            <CopyLinkButton slug={policy.slug} />
+            <ShareButton title={policy.title} slug={policy.slug} />
           </div>
         </div>
       </header>
@@ -120,7 +147,7 @@ export function PublicPolicyPage() {
 
         {/* Table of contents */}
         {policy.sections.length > 3 && (
-          <nav className="mb-10 p-5 bg-gray-50 dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800">
+          <nav aria-label="Table of contents" className="mb-10 p-5 bg-gray-50 dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800">
             <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
               Contents
             </p>
@@ -162,20 +189,20 @@ export function PublicPolicyPage() {
         {/* Footer */}
         <div className="mt-16 pt-8 border-t border-gray-100 dark:border-gray-800">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div>
-              {policy.contactEmail && (
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Questions?{' '}
-                  <a href={`mailto:${policy.contactEmail}`} className="text-brand-600 hover:underline">
-                    {policy.contactEmail}
-                  </a>
-                </p>
-              )}
-            </div>
+            <PolicyFeedback policySlug={policy.slug} />
             <div className="flex items-center gap-2">
-              <CopyLinkButton />
+              <CopyLinkButton slug={policy.slug} />
             </div>
           </div>
+
+          {policy.contactEmail && (
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">
+              Questions?{' '}
+              <a href={`mailto:${policy.contactEmail}`} className="text-brand-600 hover:underline">
+                {policy.contactEmail}
+              </a>
+            </p>
+          )}
 
           <div className="mt-6 pt-6 border-t border-gray-50 dark:border-gray-900 flex items-center gap-2 text-xs text-gray-400">
             <span>Hosted by</span>
